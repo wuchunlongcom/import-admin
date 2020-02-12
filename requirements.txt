@@ -14,3 +14,4 @@ tablib
 diff_match_patch
 xlwt
 openpyxl
+odfpy
