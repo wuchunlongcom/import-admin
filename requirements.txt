@@ -11,3 +11,4 @@ Pillow
 xlrd
 xlsxwriter
 tablib
+diff_match_patch

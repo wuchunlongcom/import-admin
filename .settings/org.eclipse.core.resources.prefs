@@ -3,3 +3,4 @@ encoding//mysite/account/urls.py=utf-8
 encoding//mysite/account/views.py=utf-8
 encoding//mysite/import_export/apps.py=utf-8
 encoding//mysite/import_export/formats/base_formats.py=utf-8
+encoding//mysite/import_export/resources.py=utf-8
