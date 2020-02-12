@@ -1,4 +1,4 @@
-python3.7.5   django2.2.6
+python3.7.5   django2.2.6  部署?
 使用其中模块 https://github.com/django-import-export/django-import-export
 django-import-export库支持多种格式，包括xls、csv、json、yaml以及tablib支持的所有其他格式。
 

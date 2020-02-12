@@ -21,14 +21,8 @@ if __name__ == "__main__":
     customerGroup.permissions.add()
     customerGroup.save()
         
-    isname = User.objects.filter(username = 'admin')
-    if isname:
-        user = User.objects.get(username='admin')
-        user.set_password('1234qazx')
-        user.save()
-    else:
-        User.objects.create_superuser('admin', 'admin@test.com','1234qazx')
-     
+    if not User.objects.filter(username = 'admin'):
+        User.objects.create_superuser('admin', 'admin@test.com','admin')     
 
 """    
     from account.models import Blog, Author, Entry
