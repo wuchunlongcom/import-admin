@@ -16,3 +16,4 @@ xlwt
 openpyxl
 odfpy
 pyyaml
+MarkupPy
