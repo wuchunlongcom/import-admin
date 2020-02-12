@@ -10,4 +10,4 @@ monthdelta
 Pillow
 xlrd
 xlsxwriter
-
+tablib
