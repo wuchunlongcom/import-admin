@@ -20,32 +20,14 @@ function build_venv {
 }
 
 function del_db {
-    # logging "Clean"
-    # rm -rf "${BASE_DIR}/mysite/db.sqlite3"
-
-    # rm -rf "${BASE_DIR}/mysite/blog/migrations/0001_initial.py"
-    # ls "${BASE_DIR}/mysite/blog/migrations/"
-
-    # rm -rf "${BASE_DIR}/mysite/web/migrations/0001_initial.py"
-    # ls "${BASE_DIR}/mysite/web/migrations/"
-
     logging "Clean"
     rm -rf "db.sqlite3"
     rm -rf "account/migrations/0001_initial.py"
     rm -rf "core/migrations/0001_initial.py"
 
-
 }
-function creator_db {
-    # logging "makemigrations" "blog"
-    # python3 "${BASE_DIR}/mysite/manage.py" "makemigrations" "blog"
-    # logging "migrate"
-    # python3 "${BASE_DIR}/mysite/manage.py" "migrate"
 
-    # logging "makemigrations" "web"
-    # python3 "${BASE_DIR}/mysite/manage.py" "makemigrations" "web"    
-    # logging "migrate"
-    # python3 "${BASE_DIR}/mysite/manage.py" "migrate"
+function creator_db {
     logging "makemigrations" "account"
     python "manage.py" "makemigrations" "account"
 
@@ -54,13 +36,10 @@ function creator_db {
 
     logging "migrate"
     python "manage.py" "migrate"
-
     
 }
 
 function write_data_db {
-	# logging "initdb.py"
-	# python3 "${BASE_DIR}/mysite/initdb.py"
     logging "initdb.py"
     python "initdb.py"
 }
