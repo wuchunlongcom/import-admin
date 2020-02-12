@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env bash
-
 pushd `dirname $0` > /dev/null
 BASE_DIR=`pwd -P`
 popd > /dev/null
@@ -10,42 +10,90 @@ popd > /dev/null
 function logging {
     echo "[INFO] $*"
 }
+function build_venv {
+    if [ ! -d env ]; then
+        virtualenv env
+    fi
+    . env/bin/activate
+    pip3 install -r requirements.txt
 
-pip install -r requirements.txt
-
-function rebuild_db {
-	logging "Clean"
-	rm -rf "db.sqlite3"
-	rm -rf "account/migrations/0001_initial.py"
-	rm -rf "core/migrations/0001_initial.py"
-
-	logging "makemigrations" "account"
-	python "manage.py" "makemigrations" "account"
-
-	logging "makemigrations" "core"
-	python "manage.py" "makemigrations" "core"
-
-	logging "migrate"
-	python "manage.py" "migrate"
-
-	logging "initdb.py"
-	python "initdb.py"
 }
+
+function del_db {
+    # logging "Clean"
+    # rm -rf "${BASE_DIR}/mysite/db.sqlite3"
+
+    # rm -rf "${BASE_DIR}/mysite/blog/migrations/0001_initial.py"
+    # ls "${BASE_DIR}/mysite/blog/migrations/"
+
+    # rm -rf "${BASE_DIR}/mysite/web/migrations/0001_initial.py"
+    # ls "${BASE_DIR}/mysite/web/migrations/"
+
+    logging "Clean"
+    rm -rf "db.sqlite3"
+    rm -rf "account/migrations/0001_initial.py"
+    rm -rf "core/migrations/0001_initial.py"
+
+
+}
+function creator_db {
+    # logging "makemigrations" "blog"
+    # python3 "${BASE_DIR}/mysite/manage.py" "makemigrations" "blog"
+    # logging "migrate"
+    # python3 "${BASE_DIR}/mysite/manage.py" "migrate"
+
+    # logging "makemigrations" "web"
+    # python3 "${BASE_DIR}/mysite/manage.py" "makemigrations" "web"    
+    # logging "migrate"
+    # python3 "${BASE_DIR}/mysite/manage.py" "migrate"
+    logging "makemigrations" "account"
+    python "manage.py" "makemigrations" "account"
+
+    logging "makemigrations" "core"
+    python "manage.py" "makemigrations" "core"
+
+    logging "migrate"
+    python "manage.py" "migrate"
+
+    
+}
+
+function write_data_db {
+	# logging "initdb.py"
+	# python3 "${BASE_DIR}/mysite/initdb.py"
+    logging "initdb.py"
+    python "initdb.py"
+}
+
 
 function launch_webapp {
-    cd ${BASE_DIR}/mysite
-    python "manage.py" "runserver"
+    python3 "${BASE_DIR}/mysite/manage.py" "runserver" "8000"
 }
-
 #############
 # Main
 #############
 cd ${BASE_DIR}
 OPT_ENV_FORCE=$1
 
-if [ "${OPT_ENV_FORCE}x" == "-ix" ];then
-    cd ${BASE_DIR}/mysite
-    rebuild_db
+build_venv
+
+cd ${BASE_DIR}/mysite
+#创建数据库表，适合添加数据库后操作，能重复操作，不会破坏数据。
+if [ "${OPT_ENV_FORCE}x" == "-cx" ];then    
+    creator_db
 fi
+# 创建数据表、创建超级用户，破坏数据?!!!(2018.01.21)。
+if [ "${OPT_ENV_FORCE}x" == "-cax" ];then    
+    creator_db
+    python3 "${BASE_DIR}/mysite/manage.py" "createsuperuser" #创建超级用户
+fi
+
+# 初始化数据库。创建数据表,删除数据后再加载数据。谨慎操作！！！
+if [ "${OPT_ENV_FORCE}x" == "-ix" ];then    
+    del_db
+    creator_db
+    write_data_db
+fi
+
 
 launch_webapp
