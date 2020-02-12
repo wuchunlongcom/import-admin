@@ -12,3 +12,4 @@ xlrd
 xlsxwriter
 tablib
 diff_match_patch
+xlwt
